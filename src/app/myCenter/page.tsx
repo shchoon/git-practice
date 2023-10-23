@@ -1,9 +1,39 @@
 "use client"
 import '../globals.css'
 import Image from 'next/image'
+import Script from 'next/script'
+import { useState } from 'react';
+
+declare global {
+    interface Window {
+      daum: any;
+    }
+  }
+
+interface IAddr {
+address: string;
+zonecode: string;
+}
 
 export default function MyCenter() {
+      
+    const onClickAdd = () => {
+        new window.daum.Postcode({
+            oncomplete: function(data :any) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                console.log(data)
+                setAddress(data.address + `  (${data.buildingName})`);
+            }
+        }).open();
+    }
+
+    let [address, setAddress] = useState<string>('')
+
     return(
+        <>
+        <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></Script>
+        
         <div className='flex justify-center items-center h-[1080px] py-[272px] w-[1920px]  bg-[#F8FAFD]'>
         <div className='inline-flex w-[442px] h-[523px] border px-[6px] pt-3 pb-2 rounded-2xl gap-[10px] border-[#E5E7EB] bg-[#FFF] shadow-[-3px_5px_20px_0px_rgba(0,0,0,0.03)'>
             <form className='w-[430px] flex-col items-center flex-col gap-14'>
@@ -24,8 +54,8 @@ export default function MyCenter() {
                     <div className='w-[430px] h-[60px] flex items-center'>
                         <input className='w-full px-3 py-5 rounded-lg border border-[#6B7280]' placeholder='센터명' />
                     </div>
-                    <div className='relative w-[430px] h-[61px] py-[20px] mt-[36px] flex flex-col items-center  rounded-lg border border-[#6B7280] bg-[#FFF]'>
-                        <input className='relative flex w-[406px] h-[61px] rounded-lg' placeholder='typing' />
+                    <div className='relative w-[430px] h-[61px] py-[20px] mt-[36px] flex flex-col items-center  rounded-lg border border-[#6B7280] bg-[#FFF]' onClick={onClickAdd}>
+                        <input className='relative flex w-[406px] h-[61px] rounded-lg' placeholder='typing' value={address} />
                         <div className='absolute left-[12px] top-[-10px] w-[32px] h-[12px] p-[4px] bg-[#FFF] text-[12px] font-medium text-[#563AC0]'>주소</div>
                     </div>
                     <div className='w-[430px] h-[60px] mt-[35px]  border rounded-lg border-[#E5E7EB]'>
@@ -38,7 +68,7 @@ export default function MyCenter() {
             </form>
         </div>
         </div>
-        
+        </>
     )
 }
 
