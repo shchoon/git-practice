@@ -1,18 +1,42 @@
 "use client"
 import '../globals.css'
 import Image from 'next/image'
+import Script from 'next/script';
+
+declare global { // Kakao 함수를 전역에서 사용할 수 있도록 선언
+    interface Window {
+      Kakao: any;
+    }
+  }
 
 export default function Login() {
+
+    function kakaoInit() { // 페이지가 로드되면 실행
+        window.Kakao.init('6bc5fda37065e978c7091b6f1987a7c2');
+        console.log(window.Kakao.isInitialized());
+      }
+
+    function kakaoLogin() {
+    window.Kakao.Auth.authorize({
+        redirectUri: 'http://localhost:3000/kakao_login', 
+    });
+    }
+
     return(
+        <>
+        <Script id='kakao_SDK' src="https://t1.kakaocdn.net/kakao_js_sdk/2.4.0/kakao.min.js" 
+        integrity="sha384-mXVrIX2T/Kszp6Z0aEWaA8Nm7J6/ZeWXbL8UpGRjKwWe56Srd/iyNmWMBhcItAjH" 
+        crossOrigin="anonymous" onLoad={kakaoInit}>
+        </Script>
         <div className='flex justify-center h-[1080px] items-center py-[272px] w-[1920px]  bg-[#F8FAFD]'>
         <div className='flex items-start w-[442px]  h-[476px] gap-2.5 px-[6px] pt-3 pb-2 border rounded-2xl border-[#E5E7EB] bg-[#FFF] shadow-[-3px_5px_20px_0px_rgba(0,0,0,0.03)]'>
             <div className='flex flex-col  items-center gap-[56px]'>
                 <div className=' flex items-center flex-col w-[383px] h-[150px] gap-[30px]'>
                     <div className='w-[60px] h-[60px] p-[5px]'>
-                        <img src='/logo.png' alt='' />
+                        <img src='/logo.png' alt='' /> 
                     </div>
                     <div className='flex flex-col w-[383px] h-[60px] items-center gap-2'>
-                        <div className='text-center text-[28px] font-bold leading-normal'>센스있는 매니csc저, 오센스</div>
+                        <div className='text-center text-[28px] font-bold leading-normal'>센스있는 매니저, 오센스</div>
                         <div className='text-center text-[13px] font-normal leading-normal text-[#4B5563]'>오감을 깨우는 클래스 관리, 센스 만점 오센스에서 시작하세요!</div>
                         {/* font-size 다름 */}
                     </div>
@@ -22,13 +46,13 @@ export default function Login() {
                         <svg xmlns="http://www.w3.org/2000/svg" className='my-0.5 ml-2' width="48" height="48" viewBox="0 0 48 48" fill="none">
                         <path d="M23.9997 14.6934C18.43 14.6934 13.915 18.2534 13.915 22.6448C13.915 25.4838 15.8026 27.9751 18.642 29.3818C18.4875 29.9145 17.6494 32.809 17.616 33.0364C17.616 33.0364 17.5959 33.2072 17.7065 33.2724C17.8172 33.3375 17.9473 33.2869 17.9473 33.2869C18.2646 33.2426 21.6266 30.8811 22.2085 30.471C22.7898 30.5533 23.3884 30.5961 23.9997 30.5961C29.5693 30.5961 34.0843 27.0362 34.0843 22.6448C34.0843 18.2534 29.5693 14.6934 23.9997 14.6934Z" fill="#381F1F"/>
                         </svg>
-                        <div className='font-semibold w-[190px] h-[16px] leading-4 mt-[18px] mx-auto'>카카오 계정으로 회원가입</div>
+                        <div className='font-semibold w-[190px] h-[16px] leading-4 mt-[18px] mx-auto' onClick={kakaoLogin}>카카오 계정으로 로그인</div>
                     </div>
                     <div className='flex w-[430px] h-[52px] rounded-md border border-[#2BB500]'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
                         <path d="M15.6729 16.6528V31.3467H21.4486V23.5498L26.9354 31.3467H32.3259V16.6528H26.9354V24.6493L21.4486 16.6528H15.6729Z" fill="#2BB500"/>
                         </svg>
-                        <div className='mx-auto font-semibold h-[16px] leading-4 mt-[18px] text-[#2BB500]'>네이버 계정으로 회원가입</div>
+                        <div className='mx-auto font-semibold h-[16px] leading-4 mt-[18px] text-[#2BB500]'>네이버 계정으로 로그인</div>
                     </div>
                     <div className='flex w-[430px] h-[52px] rounded-md border border-[#6B7280]'>
                         <svg className='p-[15px]' xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 18 18" fill="none">
@@ -44,14 +68,14 @@ export default function Login() {
                             </clipPath>
                         </defs>
                         </svg>
-                        <div className='mx-auto font-semibold h-[16px] leading-4 mt-[18px]'>구글 계정으로 회원가입</div>
+                        <div className='mx-auto font-semibold h-[16px] leading-4 mt-[18px]'>구글 계정으로 로그인</div>
                     </div>
-                    <div className='w-[430px] h-[52px] rounded-md border border-[#6B7280]'></div>
+                    <div className='w-[430px] h-[52px] rounded-md border border-[#6B7280]'>애플 계정으로 로그인</div>
                 </div>
             </div>
         </div>
         </div>
-        
+        </>    
     )
 }
 
