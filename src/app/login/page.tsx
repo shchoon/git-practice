@@ -21,6 +21,7 @@ export default function Login() {
         redirectUri: 'http://localhost:3000/kakao_login', 
     });
     }
+    
 
     return(
         <>
